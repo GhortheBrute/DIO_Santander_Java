@@ -33,7 +33,7 @@ public class Main {
         // Exercício 02
         System.out.println("\n\n##### Exercício 2 ####");
         System.out.println("Digite o tamanho do lado do quadrado:");
-        float exe2Lado = 0;
+        float exe2Lado;
         while(true) {
             try {
                 exe2Lado = scanner.nextFloat();
@@ -50,9 +50,9 @@ public class Main {
         scanner.nextLine();
 
         // Exercício 03
-        System.out.println("\n\n#### Exercicio 3 ####");
+        System.out.println("\n\n#### Exercício 3 ####");
         System.out.println("Digite o tamanho da base de um retângulo.");
-        float exe3Base = 0;
+        float exe3Base;
         while(true) {
             try{
                 exe3Base = scanner.nextFloat();
@@ -63,7 +63,7 @@ public class Main {
             }
         }
         System.out.println("Digite o tamanho da altura do retângulo.");
-        float exe3Altura = 0;
+        float exe3Altura;
         while(true) {
             try{
                 exe3Altura = scanner.nextFloat();
@@ -80,7 +80,7 @@ public class Main {
         scanner.nextLine();
 
         // Exercício 04
-        System.out.println("\n\n#### Exercicio 4 ####");
+        System.out.println("\n\n#### Exercício 4 ####");
         System.out.println("Digite o 1º nome:");
         String exe4Name1 = scanner.nextLine();
         System.out.println("Digite a idade do 1º nome:");
@@ -90,6 +90,6 @@ public class Main {
         System.out.println("Digite a idade do 2º nome:");
         int exe4Age2 = scanner.nextInt();
         int resultado = Math.abs(exe4Age1 - exe4Age2);
-        System.out.printf("A diferença de idade entre %s, de %d anos e %s, de %d anos é de %d", exe4Name1, exe4Age1, exe4Name2, exe4Age2, resultado);
+        System.out.printf("A diferença de idade entre %s, de %d anos e %s, de %d anos é de %d anos.", exe4Name1, exe4Age1, exe4Name2, exe4Age2, resultado);
     }
 }
