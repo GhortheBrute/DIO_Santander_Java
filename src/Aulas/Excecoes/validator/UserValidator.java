@@ -15,12 +15,12 @@ public class UserValidator {
             throw new ValidatorException("O nome deve ter mais que 1 caractere");
         if (stringIsBlank(model.getEmail()))
             throw new ValidatorException("Informe um e-mail válido.");
-        if ((model.getEmail().contains("@")) && (!model.getEmail().contains(".")))
+        if ((model.getEmail().contains("@")) || (!model.getEmail().contains(".")))
             throw new ValidatorException("Informe um e-mail válido.");
 
     }
 
-    private static boolean stringIsBlank(final String value){
+    private static boolean stringIsBlank(final String value) {
         return value == null || value.isBlank();
     }
 }

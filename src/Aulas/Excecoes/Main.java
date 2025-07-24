@@ -1,12 +1,12 @@
 package Aulas.Excecoes;
 
 import Aulas.Excecoes.dao.UserDAO;
+import Aulas.Excecoes.exception.UserNotFoundException;
 import Aulas.Excecoes.exception.ValidatorException;
 import Aulas.Excecoes.model.MenuOption;
 import Aulas.Excecoes.model.UserModel;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -17,8 +17,8 @@ public class Main {
     private final static UserDAO dao = new UserDAO();
     private final static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        while(true){
+    public static void main(String[] args) throws ValidatorException {
+        while (true) {
             System.out.println("Bem vindo ao cadastro de usuários, selecione a operação desejada.");
             System.out.println("1 - Cadastrar");
             System.out.println("2 - Atualizar");
@@ -27,15 +27,24 @@ public class Main {
             System.out.println("5 - Listar");
             System.out.println("6 - Sair");
             var userInput = scanner.nextInt();
-            var selectedOption = MenuOption.values()[userInput -1];
+            var selectedOption = MenuOption.values()[userInput - 1];
             switch (selectedOption) {
                 case SAVE -> {
                     var user = dao.save(requestToSave());
                     System.out.printf("Usuário %s salvo com sucesso!\n", user.getId());
                 }
                 case UPDATE -> {
-                    var user = dao.update(requestToUpdate());
-                    System.out.printf("Usuário %s atualizado com sucesso!\n", user.getId());
+                    try {
+                        var user = dao.update(requestToUpdate());
+                        System.out.printf("Usuário %s atualizado com sucesso!\n", user.getId());
+                    } catch (UserNotFoundException ex) {
+                        System.out.println(ex.getMessage());
+                    } catch (ValidatorException ex) {
+                        System.out.println(ex.getMessage());
+                        ex.printStackTrace();
+                    } finally {
+                        System.out.println("====================");
+                    }
                 }
                 case DELETE -> {
                     dao.delete(requestId());
@@ -62,7 +71,7 @@ public class Main {
         return scanner.nextLong();
     }
 
-    private static UserModel requestToSave(){
+    private static UserModel requestToSave() throws ValidatorException {
         System.out.println("Informe o nome do usuário.");
         var name = scanner.next();
         System.out.println("Informe o email do usuário.");
@@ -71,20 +80,17 @@ public class Main {
         var birthdayString = scanner.next();
         var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         var birthday = LocalDate.parse(birthdayString, formatter);
-        try{
-            return validateInputs(0, name, email, birthday);
-        } catch (ValidatorException e) {
-            throw new RuntimeException(e);
-        }
-
+        return validateInputs(0, name, email, birthday);
     }
 
-    private UserModel validateInputs(final long id, final String name, final String email, final LocalDate birthday) throws ValidatorException {
+    private static UserModel validateInputs(final long id, final String name,
+                                            final String email, final LocalDate birthday) throws ValidatorException {
         var user = new UserModel(0, name, email, birthday);
         verifyModel(user);
+        return user;
     }
 
-    private static UserModel requestToUpdate(){
+    private static UserModel requestToUpdate() throws ValidatorException {
         System.out.println("Inform o id do usuário;");
         var id = scanner.nextLong();
         System.out.println("Informe o nome do usuário.");
@@ -95,7 +101,7 @@ public class Main {
         var birthdayString = scanner.next();
         var formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         var birthday = LocalDate.parse(birthdayString, formatter);
-        return validateInputs(0, name, email, birthday);
+        return validateInputs(id, name, email, birthday);
     }
 
 }

@@ -1,7 +1,6 @@
 package Aulas.Excecoes.model;
 
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Objects;
 
 public class UserModel {
@@ -13,7 +12,7 @@ public class UserModel {
     public UserModel() {
     }
 
-    public UserModel(final long id,final String name,final String email,final LocalDate birthday) {
+    public UserModel(final long id, final String name, final String email, final LocalDate birthday) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -69,7 +68,7 @@ public class UserModel {
 
     @Override
     public String toString() {
-        return  "Id= " + id +
+        return "Id= " + id +
                 "\nNome= " + name +
                 "\ne-Mail= " + email +
                 "\nData de Aniversário= " + birthday;
