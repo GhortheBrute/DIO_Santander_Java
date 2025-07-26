@@ -1,4 +1,4 @@
-package Exercicios.E03_Java_e_a_arte_da_abstracao_com_classes_e_encapsulamento;
+package Exercicios.E03_Java_e_a_arte_da_abstracao_com_classes_e_encapsulamento.Exe01;
 
 public class ContaBancaria {
     private double saldo;
@@ -35,7 +35,7 @@ public class ContaBancaria {
 
     private void setChequeEspecial(double chequeEspecial) {
         this.chequeEspecial = chequeEspecial;
-        double chequeEspecialInicial = chequeEspecial;
+        this.chequeEspecialInicial = chequeEspecial;
     }
 
     private void setLimite() {
@@ -90,8 +90,10 @@ public class ContaBancaria {
     }
 
     private void cobrarTaxa(){
-        this.chequeEspecialInicial = chequeEspecial - (chequeEspecialInicial * 0.2);
+        var taxa = (chequeEspecialInicial - chequeEspecial) * 0.2;
+        this.chequeEspecial -= taxa;
         setLimite();
+        System.out.printf("\nTaxa de R$ %.2f cobrada com sucesso", taxa);
     }
 
     public void consultarLimite(){

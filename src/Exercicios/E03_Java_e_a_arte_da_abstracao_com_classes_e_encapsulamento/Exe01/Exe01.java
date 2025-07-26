@@ -1,4 +1,4 @@
-package Exercicios.E03_Java_e_a_arte_da_abstracao_com_classes_e_encapsulamento;
+package Exercicios.E03_Java_e_a_arte_da_abstracao_com_classes_e_encapsulamento.Exe01;
 
 /*
 Escreva um código onde temos uma conta bancaria que possa realizar as seguintes operações:
