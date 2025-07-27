@@ -1,5 +1,8 @@
 package Exercicios.E04_Hierarquia_e_Polimorfismo.Exe03;
 
+import java.time.*;
+import java.time.format.DateTimeFormatter;
+
 public abstract class Hora {
     private int hora;
     private int minuto;
@@ -13,10 +16,20 @@ public abstract class Hora {
         this.gmt = GMT.GMT_0;
     }
 
+    public ZonedDateTime getZonedDateTime(){
+        LocalDate hoje = LocalDate.now();
+        LocalTime hora = LocalTime.of(this.hora, this.minuto, this.segundo);
+        LocalDateTime dataHoraUTC = LocalDateTime.of(hoje, hora);
 
+        ZoneOffset offset = ZoneOffset.ofHours(gmt.getOffset());
+        ZoneId zoneId = ZoneId.ofOffset("UTC", offset);
+        return dataHoraUTC.atZone(ZoneOffset.UTC).withZoneSameInstant(zoneId);
+    }
+
+    @Override
     public String toString() {
-        int horaAjustada = (hora + gmt.getOffset()) % 24;
-        if (horaAjustada < 0 ) horaAjustada += 24;
-        return String.format("Horário " + this.getClass().getSimpleName() + "(GMT%s): %02d:%02d:%02d",(gmt.getOffset() >= 0 ? "+": "") + gmt.getOffset(), horaAjustada, minuto, segundo);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");
+        String horarioFormatado = formatter.format(getZonedDateTime());
+        return String.format("Horário %s (%s): %s", this.getClass().getSimpleName(), gmt.toString(), horarioFormatado);
     }
 }

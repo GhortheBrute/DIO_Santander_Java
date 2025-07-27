@@ -37,5 +37,8 @@ public enum GMT {
         return offset;
     }
 
-
+    @Override
+    public String toString() {
+        return "GMT" + (offset >= 0 ? "+" : "") + offset;
+    }
 }
