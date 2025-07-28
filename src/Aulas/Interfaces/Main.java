@@ -1,6 +1,5 @@
 package Aulas.Interfaces;
 
-
 import java.util.List;
 import java.util.function.Function;
 
@@ -10,6 +9,7 @@ public class Main {
                 new User("Eduardo", 40), new User("Ana", 19));
         //users.forEach(System.out::println);
         printStringValue(User::toString, users);
+
     }
 
     private static void printStringValue(Function<User, String> callback, List<User> users) {
