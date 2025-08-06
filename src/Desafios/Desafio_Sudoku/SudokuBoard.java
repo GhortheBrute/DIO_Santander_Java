@@ -7,8 +7,15 @@ public class SudokuBoard {
     private final int[][] originalBoard = new int[9][9];
     private int[][] solution;
     private String message;
+    private boolean status = false;
+    private Scanner scanner = new Scanner(System.in);
 
-    public void inicializar() {
+    public void initialize() {
+        if (status) {
+            System.out.println("Jogo já iniciado. Para iniciar um novo jogo, use o comando 'clear'.");
+            return;
+        }
+
         board = new int[][]{
                 {2, 0, 0, 6, 9, 0, 8, 0, 1},
                 {0, 0, 0, 0, 0, 3, 6, 0, 0},
@@ -33,35 +40,48 @@ public class SudokuBoard {
                 {4, 2, 9, 1, 5, 8, 7, 6, 3},
                 {5, 6, 1, 3, 4, 7, 9, 2, 8}};
 
+        status = true;
     }
 
-    public void jogar() {
-        Scanner scanner = new Scanner(System.in);
+    public void play() {
         while (!isComplete()) {
             try {
-                printBoard();
-                System.out.println("Digite a linha.(1-9): ");
-                int row = scanner.nextInt() - 1;
+                menu();
+                int option = scanner.nextInt();
 
-                System.out.println("Digite a coluna.(1-9): ");
-                int col = scanner.nextInt() - 1;
-
-                System.out.println("Digite o valor.(1-9)");
-                int val = scanner.nextInt();
-
-                if (isValidMove(row, col, val)) {
-                    board[row][col] = val;
-                } else {
-                    System.out.println("Jogada inválida! " + message);
+                switch (option) {
+                    case 1 -> initialize();
+                    case 2 -> inputNumber();
+                    case 3 -> removeNumber();
+                    case 4 -> printBoard();
+                    case 5 -> showGameStatus();
+                    case 6 -> clearGame();
+                    case 7 -> System.exit(0);
+//                printBoard();
+//                System.out.println("Digite a linha.(1-9): ");
+//                int row = scanner.nextInt() - 1;
+//
+//                System.out.println("Digite a coluna.(1-9): ");
+//                int col = scanner.nextInt() - 1;
+//
+//                System.out.println("Digite o valor.(1-9)");
+//                int val = scanner.nextInt();
+//
+//                if (isValidMove(row, col, val)) {
+//                    board[row][col] = val;
+//                } else {
+//                    System.out.println("Jogada inválida! " + message);
+//                }
                 }
             } catch (Exception e) {
-                System.out.println("Erro: " + e.getMessage());
+                System.out.println("Erro: Insira um valor válido de 1 à 9.");
                 scanner.nextLine();
             }
         }
         System.out.println("Parabéns! Você completou o Sudoku.");
     }
 
+    // TODO: Adicionar método para checar se por remover (apenas checar original board, sem o val)
     private boolean isValidMove(int row, int col, int val) {
         // Impede alteração de células já preenchidas originalmente
         if (originalBoard[row][col] != 0) {
@@ -131,4 +151,63 @@ public class SudokuBoard {
         }
     }
 
+    private void inputNumber(){
+        // Lógica de inserir número na casa correspondente
+        System.out.println("Digite a linha.(1-9): ");
+        int row = scanner.nextInt() - 1;
+
+        System.out.println("Digite a coluna.(1-9): ");
+        int col = scanner.nextInt() - 1;
+
+        System.out.println("Digite o valor.(1-9)");
+        int val = scanner.nextInt();
+
+        if (isValidMove(row, col, val)) {
+            board[row][col] = val;
+        } else {
+            System.out.println("Jogada inválida! " + message);
+        }
+    }
+
+    private void removeNumber(){
+        // Lógica de remover número na casa correspondente
+        System.out.println("Digite a linha.(1-9): ");
+        int row = scanner.nextInt() - 1;
+
+        System.out.println("Digite a coluna.(1-9): ");
+        int col = scanner.nextInt() - 1;
+
+        // TODO: Remover linha
+        System.out.println("Digite o valor.(1-9)");
+        int val = scanner.nextInt();
+
+        if (isValidMove(row, col, val)) {
+            board[row][col] = val;
+        } else {
+            System.out.println("Jogada inválida! " + message);
+        }
+    }
+
+    private void showGameStatus(){
+        // retorna se o jogo está completo ou não.
+    }
+
+    private void clearGame(){
+        // Lógica de recomeçar o jogo
+    }
+
+    private void menu(){
+        System.out.println("\n╔══════════════════════╗");
+        System.out.println("║     MENU DO JOGO     ║");
+        System.out.println("╠══════════════════════╣");
+        System.out.println("║ 1 - Iniciar o jogo   ║");
+        System.out.println("║ 2 - Colocar número   ║");
+        System.out.println("║ 3 - Remover número   ║");
+        System.out.println("║ 4 - Visualiza jogo   ║");
+        System.out.println("║ 5 - Verificar status ║");
+        System.out.println("║ 6 - Limpar jogo      ║");
+        System.out.println("║ 7 - Sair             ║");
+        System.out.println("╚══════════════════════╝");
+        System.out.print("Escolha uma opção: ");
+    }
 }
